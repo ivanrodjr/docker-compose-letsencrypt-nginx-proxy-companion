@@ -9,7 +9,7 @@ check_env_file() {
         source .env
     else
         echo
-        echo "Please set up your .env file before starting your enviornment."
+        echo "Please set up your .env file before starting your environment."
         echo
         exit 1
     fi

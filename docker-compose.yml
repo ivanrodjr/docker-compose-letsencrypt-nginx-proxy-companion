@@ -22,7 +22,7 @@ services:
         max-file: ${NGINX_WEB_LOG_MAX_FILE:-10}
 
   nginx-gen:
-    image: jwilder/docker-gen
+    image: jwilder/docker-gen:${DOCKER_GEN_VERSION}
     command: -notify-sighup ${NGINX_WEB:-nginx-web} -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     container_name: ${DOCKER_GEN:-nginx-gen}
     restart: always
@@ -58,6 +58,53 @@ services:
       options:
         max-size: ${NGINX_LETSENCRYPT_LOG_MAX_SIZE:-2m}
         max-file: ${NGINX_LETSENCRYPT_LOG_MAX_FILE:-10}
+
+  ghost:
+    build: ./ghost
+    container_name: ${GHOST_BLOG:-ghost-blog}
+    restart: always
+    volumes:
+      - ${GHOST_FILES_PATH:-./data}/ghost-content:/var/lib/ghost/content
+    environment:
+      - url=${URL:-localhost}
+      - database__client=mysql
+      - database__connection__host=${MYSQL_DB:-mysql}
+      - database__connection__user=${DB_USER:-default_user}
+      - database__connection__password=${DB_PASSWORD:-default_password}
+      - database__connection__database=${DB_GHOST_DATABASE:-default_database}
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+      - VIRTUAL_PORT=${VIRTUAL_PORT:-2368}
+      - LETSENCRYPT_HOST=${LETS_ENCRYPT_HOST}
+      - LETSENCRYPT_EMAIL=${LETS_ENCRYPT_EMAIL}
+      - LETSENCRYPT_TEST=${LETS_ENCRYPT_STAGING:-true}
+#      - mail__transport=SMTP
+#      - mail__options__service=Mailgun
+#      - mail__options__auth__user=${MAILGUN_USER}
+#      - mail__options__auth__pass=${MAILGUN_PASSWORD}
+    depends_on:
+      - mysql
+    logging:
+      driver: ${GHOST_BLOG_LOG_DRIVER:-json-file}
+      options:
+        max-size: ${GHOST_BLOG_LOG_MAX_SIZE:-2m}
+        max-file: ${GHOST_BLOG_LOG_MAX_FILE:-10}
+
+  mysql:
+    image: mysql:${MYSQL_VERSION:-5.7}
+    container_name: ${MYSQL_DB:-mysql}
+    volumes:
+      - ${MYSQL_FILES_PATH:-./data}/ghost-db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_GHOST_DATABASE:-default_database}
+      - MYSQL_USER=${DB_USER:-default_user}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-default_password}
+    restart: unless-stopped
+    logging:
+      driver: ${MYSQL_DB_LOG_DRIVER:-json-file}
+      options:
+        max-size: ${MYSQL_DB_LOG_MAX_SIZE:-2m}
+        max-file: ${MYSQL_DB_LOG_MAX_FILE:-10}
 
 networks:
   default:

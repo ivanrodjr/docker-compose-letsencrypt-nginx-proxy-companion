@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# This scrip update the web proxy without downtime
+# This script updates the web proxy without downtime
 #
 # Source: https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion
 #
@@ -11,7 +11,7 @@ if [ -e .env ]; then
     source .env
 else 
     echo 
-    echo "Please set up your .env file before starting your enviornment."
+    echo "Please set up your .env file before starting your environment."
     echo 
     exit 1
 fi
@@ -38,5 +38,7 @@ curl https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl > n
 docker-compose up -d --no-deps --build nginx-web
 docker-compose up -d --no-deps --build nginx-gen
 docker-compose up -d --no-deps --build nginx-letsencrypt
+docker-compose up -d --no-deps --build ghost
+docker-compose up -d --no-deps --build mysql
 
 exit 0
