@@ -1,7 +1,5 @@
 # Ghost blog using Docker, NGINX and Let's Encrypt
 
--ghost image to adornar
-
 With this repo you will be able to use a docker-compose to spin up your Ghost blog hustle free.
 
 - NGINX proxy to manage your connections.
