@@ -6,7 +6,8 @@ With this repo you will be able to use a docker-compose to spin up your Ghost bl
 
 - NGINX proxy to manage your connections.
 - Obtain and automatically renew ssl certificates with Let´s Encrypt.
-- Data persistence in volumes with MySql.
+- MySql database.
+- Volumes for each container mapped to host. 
 - Mailgun support for transactional emails.
 - Configuration centralized in a single file: `.env.`
 
@@ -21,7 +22,7 @@ In order to use this compose file (docker-compose.yml) you must have:
 
 1. Clone this repository:
 
-2. Make a copy of the `.env.sample` and rename it to `.env` and **update this file with your blog information, database info and preferences.**
+2. Make a copy of the `.env.sample` and rename it to `.env` and **update this file with your info and preferences.**
 
 3. Run the start script
 
@@ -32,6 +33,7 @@ In order to use this compose file (docker-compose.yml) you must have:
 Your Ghost blog is ready to go!
 
 > You don´t need to open port `443` in your container, the certificate validation is managed by the web proxy.
+
 
 
 > Please note that when running a new container to generate certificates with LetsEncrypt (`-e LETSENCRYPT_HOST=your.domain.com`), it may take a few minutes depending on multiples circumstances. Also note that the 

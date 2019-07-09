@@ -4,7 +4,7 @@ services:
     image: nginx:${NGINX_VERSION:-latest}
     labels:
         com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
-    container_name: ${NGINX_WEB:-nginx-web}
+    container_name: ${NGINX_WEB:-nginx-proxy}
     restart: always
     ports:
       - "${IP:-0.0.0.0}:${DOCKER_HTTP:-80}:80"
