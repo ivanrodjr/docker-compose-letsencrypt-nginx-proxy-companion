@@ -2,7 +2,7 @@
 
 ![Ghost](https://i.imgur.com/C3ypvnW.jpg)
 
-With this repo you will be able to use a docker-compose to spin up your Ghost blog hustle free.
+With this repo you will be able to use a docker-compose to spin up your Ghost blog in no time!.
 
 - NGINX proxy to manage your connections.
 - Obtain and automatically renew ssl certificates with Let´s Encrypt.

@@ -23,7 +23,7 @@ git checkout master
 # 3. Check if your env files has the same line numbers
 if [ "$(wc -l .env | cut -f1 -d' ')" != "$(wc -l .env.sample | cut -f1 -d' ')" ]; then
     echo
-    echo "The sample .env are different from the your current .env file."
+    echo "The sample .env is different from the your current .env file."
     echo "Please update your .env file to continue."
     echo "It must has the same lines of the sample env file."
     echo
@@ -35,7 +35,7 @@ fi
 curl https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl > nginx.tmpl
 
 # 4. Update containers without downtime
-docker-compose up -d --no-deps --build nginx-web
+docker-compose up -d --no-deps --build nginx-proxy
 docker-compose up -d --no-deps --build nginx-gen
 docker-compose up -d --no-deps --build nginx-letsencrypt
 docker-compose up -d --no-deps --build ghost
