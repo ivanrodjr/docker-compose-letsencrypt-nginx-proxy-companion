@@ -65,38 +65,38 @@ services:
         max-size: ${NGINX_LETSENCRYPT_LOG_MAX_SIZE:-2m}
         max-file: ${NGINX_LETSENCRYPT_LOG_MAX_FILE:-10}
 
-ghost:
-  build: ./ghost
-  container_name: ${GHOST_BLOG:-ghost-blog}
-  restart: always
-  volumes:
-    - ${GHOST_FILES_PATH:-./data}/ghost-content:/var/lib/ghost/content
-  environment:
-    - url=${URL:-localhost}
-    - database__client=mysql
-    - database__connection__host=${MYSQL_DB:-mysql}
-    - database__connection__user=${DB_USER:-default_user}
-    - database__connection__password=${DB_PASSWORD:-default_password}
-    - database__connection__database=${DB_GHOST_DATABASE:-default_database}
-    - VIRTUAL_HOST=${VIRTUAL_HOST}
-    - VIRTUAL_PORT=${VIRTUAL_PORT:-2368}
-    - LETSENCRYPT_HOST=${LETS_ENCRYPT_HOST}
-    - LETSENCRYPT_EMAIL=${LETS_ENCRYPT_EMAIL}
-    - LETSENCRYPT_TEST=${LETSENCRYPT_TEST:-true}
-#    - mail__transport=SMTP
-#    - mail__options__service=Mailgun
-#    - mail__options__auth__user=${MAILGUN_USER}
-#    - mail__options__auth__pass=${MAILGUN_PASSWORD}
-  networks:
-    - default
-    - outside
-  depends_on:
-    - mysql
-  logging:
-    driver: ${GHOST_BLOG_LOG_DRIVER:-json-file}
-    options:
-      max-size: ${GHOST_BLOG_LOG_MAX_SIZE:-2m}
-      max-file: ${GHOST_BLOG_LOG_MAX_FILE:-10}
+  ghost:
+    build: ./ghost
+    container_name: ${GHOST_BLOG:-ghost-blog}
+    restart: always
+    volumes:
+      - ${GHOST_FILES_PATH:-./data}/ghost-content:/var/lib/ghost/content
+    networks:
+      - default
+      - outside
+    environment:
+      - url=${URL:-localhost}
+      - database__client=mysql
+      - database__connection__host=${MYSQL_DB:-mysql}
+      - database__connection__user=${DB_USER:-default_user}
+      - database__connection__password=${DB_PASSWORD:-default_password}
+      - database__connection__database=${DB_GHOST_DATABASE:-default_database}
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+      - VIRTUAL_PORT=${VIRTUAL_PORT:-2368}
+      - LETSENCRYPT_HOST=${LETS_ENCRYPT_HOST}
+      - LETSENCRYPT_EMAIL=${LETS_ENCRYPT_EMAIL}
+      - LETSENCRYPT_TEST=${LETSENCRYPT_TEST:-true}
+#      - mail__transport=SMTP
+#      - mail__options__service=Mailgun
+#      - mail__options__auth__user=${MAILGUN_USER}
+#      - mail__options__auth__pass=${MAILGUN_PASSWORD}
+    depends_on:
+      - mysql
+    logging:
+      driver: ${GHOST_BLOG_LOG_DRIVER:-json-file}
+      options:
+        max-size: ${GHOST_BLOG_LOG_MAX_SIZE:-2m}
+        max-file: ${GHOST_BLOG_LOG_MAX_FILE:-10}
 
   mysql:
     image: mysql:${MYSQL_VERSION:-5.7}
