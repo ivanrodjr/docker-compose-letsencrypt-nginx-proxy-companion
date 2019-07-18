@@ -5,3 +5,6 @@ data
 
 # User-specific stuff
 /.idea/
+/mysql-data/
+/ghost-data/
+/nginx-data/
