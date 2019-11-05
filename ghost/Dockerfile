@@ -1,4 +1,4 @@
-FROM ghost:2.25.4-alpine
+FROM ghost:3.0.2-alpine
 
 RUN apk update && \
 apk add mysql-client
